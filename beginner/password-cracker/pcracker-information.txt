@@ -1,0 +1,22 @@
+Understanding Password Cracking Basics Theory:
+
+What is a Hash?
+
+A hash is a one-way cryptographic function that can convert data such as passwords into an encrypted string. Hashes are non-reversible and you cannot de-crypt them directly.
+
+Common has algorithms include: MD5, SHA-1, SHA-256
+
+What is a Dictionary Attack?
+
+A dictionary attack is where a program reads from a file and compares the hash of each word to a target hash. This is a faster method than a brute force attack as it only focused on likely passwords, not random.
+
+What is a Brute Force Attack?
+
+A brute force attack is a program that tries every possible combination of characters. This can be much slower and very resource heavy. This is usually used when there are no dictionary words, or when the password is known to be short/simple.
+
+Why can't you reverse a Hash?
+
+Hashes are mathematical traps - easy to compute and nearly impossible to reverse. The only way to reverse a hash is by guessing the input and comparing the output to the hash.
+
+Setting up the Environment and Testing a Hash:
+

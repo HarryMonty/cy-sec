@@ -1,0 +1,12 @@
+A honeypot is a decoy system or network resource designed to appear vulnerable and attract attackers. It's purpose is to:
+
+* Detect unauthorized access
+* Log attacker behavior
+* Divert threats away from real systems
+
+There are two main key types:
+
+1. Low-interaction honeypots - Simulating limited services (Fake SSH or HTTPS server), easier to manage
+2. High-interaction honeypots - Emulate full systems with real services; more realistic but harder to manage
+
+Honeypot catchers work by presenting fake services that mimic real vulnerabilities. They monitor activity such as login attempts, command execution, or malware uploads. They log everything, and since no legitimate traffic should ever access the honeypot any interaction is suspicious by design.

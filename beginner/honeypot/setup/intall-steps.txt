@@ -1,0 +1,67 @@
+Installing Tools:
+
+1. VirtualBox - https://download.virtualbox.org/virtualbox/7.0.18/VirtualBox-7.0.18-162988-Win.exe
+2. Ubuntu Server - https://ubuntu.com/download/server
+
+Setting up the Ubuntu Server VM:
+
+1. Create a new VM
+	* Mount Ubunto ISO Server
+	* Name: cowrie
+	* Password: cowrievm
+	* Type: Linux
+	* Version: Ubuntu (64-bit)
+2. Memory Size: 2GB RAM
+3. Processors: 2
+4. Hard Disk: Create a virtual hard disk - 20GB VDI
+5. Use DCHP fpr network
+6. Start VM - Landing on the terminal login prompt
+
+Harden Networking for Safe Honeypot Testing:
+
+1. Close VM safely
+2. Go to VM Settings > Network
+3. Adapter 1 > Set to Host-only adapter for security
+
+(See initial-setup.png for clean install)
+
+Ensure Dependencies are Installed:
+
+1. python3 --version
+2. git --version
+3. sudo apt update
+4. Install required packages (pytho3-venv, build-essential, libssl-dev, libffi-dev, python3-minimal)
+
+Clone and Setup Cowrie Honeypot:
+
+'git clone https://github.com/cowrie/cowrie.git'
+'cd cowrie'
+
+Creating the Virtual Environment:
+
+'python3 -m venv cowrie-env' | Creates a folder 'cowrie-env' with a clean Python environment
+'source cowrie-env/bin/activate' | Activates the environment
+'pip install --upgrade -r requirements.txt' | Installs the required Python packages for the environment
+
+Configuring Cowrie Honeypot:
+
+'cp etc/cowrie.cfg.dist etc/cowrie.cfg' | Main configuration file
+'cp etc/userdb.example etc/userdb' | Fake username/password list attackers can log in with
+
+'bin/cowrie start' | Running Cowrie for the first time
+
+(See first-run.png for first Cowrie run)
+
+'bin/cowrie status' | Check Cowrie status
+
+'tail -f var/log/cowrie/cowrie.log' | Check Cowrie Logs
+
+(See cowrie-logs.png for Cowrie logs)
+
+Viewing Honeypot Logs:
+
+After setting up the VM network and being able to connect to it from home wifi
+
+'ssh root@{this is the VM ip} -p 2222' | This connects from your bash to the honeypot, logging everything you do
+
+(See honeypot-logs.png for user logging)
