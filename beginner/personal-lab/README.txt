@@ -7,3 +7,5 @@ Relevant Files:
 plab-information.txt | Information about the person-lab
 plab-screenshots | Important screenshots taken throughout the setup process
 VMs | The folder for the Virtual Machines being used in the lab (future tests will be held in here too)
+
+VMS WILL NOT SHOW UP IN GITHUB - THE FILES ARE TOO LARGE AND WILL BE IGNORED

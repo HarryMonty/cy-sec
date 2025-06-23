@@ -19,3 +19,38 @@ Installing Lab VMs:
 	* https://www.microsoft.com/en-us/software-download/windows10ISO
 	* Username: window
 	* Password: window
+	* Security Questions: window [3x]
+
+(See fresh-kalilinux.png & fresh-windows10.png to see initial VM installs)
+
+Harden and Verify VMs:
+
+1. Disable File Sharing & Discovery
+	* Ensure Network Discovery and File & Printer Sharing is turned off
+	* Ensure VMs Shared Clipboard and Drag'n'Drop is Disabled
+	* Ensure VMs Network are set to Host Network custom static ip using 'ipconfig' and 'ip a'
+
+KALI = static 192.168.30.20
+WINDOWS = static 192.168.30.10
+
+(See kali-ipconfig.png & windows-ipconfig.png)
+
+Test If VMs can Reach Each other:
+
+1. Kali -
+	* 'ip a'
+If 192.168.30.20 is UP it is working.
+Common Troubleshooting:
+	* Flush DNS 'sudo ip link set eth0 down' > 'sudo ip addr flush dev etho0' > 'sudo ip addr add 192.168.30.20/24 dev eth0' > 'sudo 	  ip link set etho0 up'
+
+2. Windows -
+	* 'ipconfig'
+If 192.168.30.10 is UP it is working.
+
+3. Test ping each VM Kali- 'ping 192.168.30.10' Windows - 'ping 192.168.30.20'
+
+(See windows-reach-kali.png & kali-reach-windows.png)
+
+Creating VM Backups:
+
+Ensure fresh installs of the kali-Linux and windows-10 states are available (Cloned).

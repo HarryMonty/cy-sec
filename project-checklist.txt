@@ -4,47 +4,42 @@ Beginner-
 ☑ - Create a simple password cracker
 ☑ - Build a tool to 'sniff' network traffic
 ☑ - Make a basic keylogger for practice
-☐ - Create a personal cybersecurity lab at home
-☐ - Practice encrypting files with cryptography
+☑ - Create a personal cybersecurity lab at home
+☐ - Practice encrypting files with cryptography (Help w Personal VMs?)
 ☐ - Test Wi-Fi security at home
 ☐ - Scan networks for vulnerabilities
-☐ - Configure firewall rules to block threats
+☐ - Configure firewall rules to block threats (Help w Personal VMs)
 ☐ - Create two-factor authentication system
 ☐ - Build a secure web application
-☐ - Set up and use 'Snort' for intrusion detection
-☐ - Practice detecting DNs spoofing attacks
+☐ - Set up and use 'Snort' for intrusion detection (Help w Personal VMs)
+☐ - Practice detecting DNS spoofing attacks (Help w Personal VMs?)
 ☐ - Study how antivirus software works
 ☐ - Build a tool to detect unusual activities
 ☐ - Setup up TLS for secure communication
-☐ - Learn how zero-day exploits work
 ☐ - Create a browser extension for security
 
 Intermediate-
 ☐ - Build a malware analysis sandbox
-☐ - Encrypt data with full disk encryption
-☐ - Use machine learning for intrusion detection
-☐ - Test secure routing protocols
-☐ - Study rootkits and how to remove them
+☐ - Encrypt data with full disk encryption (Help w Personal VMs)
+☐ - Test secure routing protocols (Personal VMs)
 ☐ - Build a dark web scraper for research
-☐ - Simulate a DDoS attack in a save environment
+☐ - Simulate a DDoS attack in a save environment (Help w Personal VMs)
 ☐ - Make a secure messaging app
 ☐ - Build a PKI (public key infrastructure)
 ☐ - Audit smart contracts for security issues
-☐ - Reverse-engineer firmware to find flaws
+☐ - Reverse-engineer firmware to find flaws (Help w Personal VMs)
 ☐ - Study industrial control system security
 ☐ - Create a custom firewall
-☐ - Research IoT device security risks
 ☐ - Practice malware obfuscation techniques
-☐ - Study how to stop in-memory attacks
 ☐ - Detect kernel backdoors in systems
-☐ - Practice making and removing rootkits
+☐ - Practice making and removing rootkits (Help w Personal VMs)
 
 Advanced-
 ☐ - Monitor cloud security systems
 ☐ - Build a zero-trust security model
-☐ - Create a ransomware detection tool
+☐ - Create a ransomware detection tool (Help w Personal VMs)
 ☐ - Explore quantum cryptography basics
-☐ - Reverse-engineer malware for defense
+☐ - Reverse-engineer malware for defense (Help w Personal VMs)
 ☐ - Test vulnerabilities in smart-home devices
 ☐ - Secure APIs with authentication tools
 ☐ - Build a simple biometric authentication system
