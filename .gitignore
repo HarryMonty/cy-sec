@@ -1,0 +1,13 @@
+# Ignore all VM files
+*.vdi
+*.vmdk
+*.vbox
+*.vbox-prev
+*.ova
+*.ovf
+*.log
+*.iso
+
+VMs/
+
+*.vbox-extpack

@@ -1,0 +1,21 @@
+Preparing Host System for Isolation & Safety:
+
+1. Change VirtualBox Network
+	* Create new Host Network
+	* Ensure DHCP is DISABLED
+	* Disable Clipboard Sharing
+
+This ensures there are no way for malware to access the network through the VM
+
+Installing Lab VMs:
+
+1. Kali Linux (Attacker)
+	* This will be the offensive VM (Metasploit, Nmap, Burp Suite, etc)
+	* https://www.kali.org/get-kali/#kali-virtual-machines
+	* Username: kali
+	* Password: kali
+2. Windows 10 (Victim)
+	* This will be the victim for ethical hacking and malware analysis
+	* https://www.microsoft.com/en-us/software-download/windows10ISO
+	* Username: window
+	* Password: window
