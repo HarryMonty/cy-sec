@@ -4,5 +4,5 @@ By setting up a Python cracker.py, and importing 'hashlib' a password will be en
 
 Relevant Files:
 
-pcracker-information | Runs through the theory and setup for a password cracker
+pcracker-information.txt | Runs through the theory and setup for a password cracker
 pcracker-screenshots | Important screenshots throughout the process

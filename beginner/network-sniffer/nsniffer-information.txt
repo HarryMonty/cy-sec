@@ -1,0 +1,68 @@
+Understanding Packet Sniffing:
+
+1. What is Packet Sniffing?
+
+Packet sniffing is the process of intercepting and logging traffic that passes over a digit network. It's key purposes are for network diagnostics, malware detection, ethical hacking / penetration testing, security auditing.
+
+2. What is a Packet?
+
+A packet is the basic unit of data transferred across a network. It contains:
+	* Header: Source / destination IP, ports, protocol information
+	* Payload: The actual data (HTTP requests, login info, file, etc.)
+Different protocols like TCP, UDP, ICMP have different packet structures.
+
+3. How can you Sniff Packets?
+
+A computers network interface card (NIC) usually ignores packets not addressed to it, however in promiscuous mode it listens to all packets on the network segment. Common methods include:
+	* Raw sockets: Gives direct access to packets, lower-level and more complex.
+	* Libpcap (Wireshark): Easy to understand, fast, but not easily customizable.
+	* Scapy: Wraps raw sockets functionality in Python for quick use.
+
+4. Where do you Sniff from?
+
+Sniffing packets from different areas will result in different types of packets:
+	* Local Device: You will only see traffic your device sends/receives.
+	* Router / Bridge: You can see everything on the network.
+
+5. Passive vs Active Sniffing
+
+	* Passive Sniffing: Listening to what's already on the network.
+	* Active Sniffing: Injecting packets to re-route traffic.
+
+Initial Setup:
+
+1. Installing Scapy
+
+Ensure python3 is installed on the computer.
+
+'py -m pip install scapy' | Successfully installs Scapy (PowerShell Terminal)
+
+2. Install NPCap
+
+https://npcap.com/#download
+
+Capturing Raw Packets:
+
+1. Write a Basic Packet Sniffer
+
+from scapy.all import sniff
+
+def packet_handler(packet):
+    print(packet.summary())
+
+sniff(prn=packet_handler, count=10)
+
+2. Run the script through terminal
+
+'py sniffer.py'
+
+(See nsniffer-rawpackets.png for logs of this script)
+
+Filtering Raw Packets:
+
+1. Modify sniffer.py to use scapy imports for filtering
+
+(See sniffer.py for full code & nsniffer-filteredpackets.png for the terminal logs)
+
+
+

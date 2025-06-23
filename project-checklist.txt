@@ -2,7 +2,7 @@
 Beginner-
 ☑ - Set up a basic honeypot to catch attackers
 ☑ - Create a simple password cracker
-☐ - Build a tool to 'sniff' network traffic
+☑ - Build a tool to 'sniff' network traffic
 ☐ - Make a basic keylogger for practice
 ☐ - Lean digital forensic analysis skills
 ☐ - Create a personal cybersecurity lab at home
