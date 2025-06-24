@@ -1,0 +1,1 @@
+This is just a shared folder between host files and VM files.

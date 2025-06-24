@@ -1,0 +1,12 @@
+Allowing Webcam through Kali VM:
+
+Allowing the VM to have access to the webcam is the same as a malware having device-level access on a system. Once granted, the malware or attacker can interact directly with the webcam, just like any authorized application or process.
+
+Installing Dependencies:
+	* 'v4l2-ctl' | VirtualBox Dependency to allow access to the webcam
+	* 'fswebcam' | Can take screenshots entirely within terminal
+
+Taking Screenshots:
+	* 'fswebcam test-image.jpg' | Takes a photo instantly, saves it in the home folder
+
+This project shows how easy it is once having administration and device-level rights going completely un-noticed.
