@@ -1,0 +1,59 @@
+Install Dependencies:
+
+1. Installing cryptography
+	'pip install cryptography'
+
+This is the package being used to make the encryption and decryption logic.
+
+Project Setup (Encryption | Kali OS):
+
+1. Create the directories
+	* Create a venv environment within kali under 'encrypt-project'
+	* Create a 'encrypt.py' and 'secret.txt' file
+
+Create the Encryption Logic (Host OS):
+
+1. Write the Encryption Logic through a copy encrypt.py script (Host OS)
+	* Use available documentation on Cryptography to encrypt a file and save the key (Fernet)
+	* Helpful resource | https://pypi.org/project/cryptography/
+
+(See encrypted.py for full code. See encrypt-logs.png for python logs)
+
+2. Use Share Files to put the Key and Encrypted message onto Kali
+	* Use shared files to transport the files into kali (.py, .encrypted, .key)
+	* Copy the files within the VM to the venv environment created earlier
+
+Transferring files over Host-Only network:
+
+1. Get VM IP's
+	* Kali | 192.168.30.20
+	* Windows | 192.168.30.10
+Ensuring the VMs are on the same subnet and can ping each other means you can transfer files too.
+
+2. Ensure OpenSSH is installed on windows:
+	* Open Manage Optional Features
+	* Install 'OpenSSH Server'
+	* In ADMIN PowerShell run 'Start-Service sshd' > 'Set-Service -Name sshd -StartupType 'Automatic''
+
+3. Sending over the Files (Attacker > Target)
+	* Open Kalis Terminal (in project directory)
+	* 'scp key.key secret.txt.encrypted win10-target@192.168.30.10:/Users/win10-target/Desktop/'
+
+(See kali-successful-tranfser.png & window-confirmation-transfer.png)
+
+File Decryption from Windows:
+
+1. Write the Decryption Logic through a copy decrypt.py script (Host OS)
+	* Use available documentation on Cryptography to decrypt a file and save the decrypted file
+	* Helpful resource | https://pypi.org/project/cryptography/
+
+2. Copy the decrypt.py file to the Window VM
+	* Use file sharing to send the decrypt.py
+	* Ensure project folders are set up the same so the python code will work
+
+3. Decrypt the key using Command Prompt
+	* Ensure you're in the project folder (C:\Users\win10-target\encrypt-project)
+	* Run 'py decrypt.py'
+	* View file to ensure it is correct
+
+(See decryption-process.png)
