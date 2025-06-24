@@ -1,0 +1,76 @@
+Understanding Firewall:
+
+A firewall is a security system that monitors and controls incoming and outgoing network traffic based on certain rules. In Windows, it's a host-based firewall meaning it runs on the VM itself and controls traffic just for that machine.
+
+Key Concepts-
+	* Inbound Rules: Control what comes into your machine
+	* Outbound Rules: Control what leaves your machine
+	* Default Behavior: Windows allows most outbound traffic unless explicitly blocked, whereas it blocks most inbound traffic unless there's an allow rule
+	* Three Firewall Profiles: Domain, Private, Public
+	* Firewall Rule Conditions: Program path, protocol (TCP/UDP), port number, IP address, and action
+
+List and Assess Services:
+
+1. To begin configuring the firewall for protection for your services, you need to know what services are running. In the VM run this in the command prompt:
+	* 'netstat -ano | find "LISTEN"
+
+(See listening-ports.png to see VM ports)
+
+2. Summary of the Listening Services
+
+Port 139 : TCP : NetBIOS Session Service | High Priority
+Port 445 : TCP : SMB (File Sharing) | High Priority
+Port 22 : TCP : Commonly used for SSH | Medium Priority
+Port 135 : TCP : Commonly used for RPC | Medium Priority
+Other : TCP : Microsoft services | Low Priority
+
+These ports (and summary) clearly outline the highest priority ports, Port 22 (SSH) is unusual for a clean install of a Windows machine. This is because the VM has OpenSHH Server installed from a previous project. Port 139 and 445 are commonly exploited ports, especially for spreading malware.
+
+Creating a Threat Model:
+
+What will this VM be protecting against? This can be different for many businesses. In this case, the VM will primarily be used for light projects, so will not need to be super secured.
+
+1. The VM will be talking to other machines
+2. It will allow pings from one machine to another
+3. Downloads should be blocked
+4. The VM should be reachable from the Kali VM and Host
+5. Block ports 445, 139, 22
+
+Implementing Firewall Rules:
+
+1. Open 'Windows Defender Firewall with Advanced Security'
+
+2. Since we want to block downloads, the easiest way to do that is blocking ports that request http or web services (80, 443)
+	* Go to Outbound Rules > New Rule
+	* Choose Port > Next
+	* Choose TCP > Specify ports (80, 443)
+	* Choose Block the connection
+	* Apply to all profiles
+	* Give it a relevant name ('Block all web traffic')
+
+(See web-ports-blocks.png for visualized rule) | Microsoft Edge has to be disabled separately as a program.
+
+3. It's good practice to Harden the security by blocking known exploit ports too
+	* Follow the same as Block web traffic rule - but with port 445 instead.
+
+(See exploit-ports-blocks.png for visualized rule)
+
+This was done again, but for the port 22 on the Inbound Rules
+
+Checking new rules (Kali):
+
+1. Using Kali, check if rules are applied
+	* 'nmap -sS {window_ip}'
+
+This will show all available ports (should say all ports filtered) however Kali should be still able to ping the Windows VM
+
+(See no-ports.png for logs of this command)
+
+Enable Logging of Blocked Connections:
+
+1. Open 'Windows Defender Firewall with Advanced Security'
+	* Right click main source in the left panel > Properties
+	* For each profile > Customize under Logging > Log dropped packets = Yes
+	* Click OK
+
+Logs can be an essential part of detecting suspicious activities on certain ports, it also helps with rule tuning.

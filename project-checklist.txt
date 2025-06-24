@@ -6,7 +6,7 @@ Beginner-
 ☑ - Make a basic keylogger for practice
 ☑ - Create a personal cybersecurity lab at home
 ☑ - Practice encrypting files with cryptography (Help w Personal VMs?)
-☐ - Scan networks for vulnerabilities (Help w Personal VMs)
+☑ - Scan networks for vulnerabilities (Help w Personal VMs)
 ☐ - Configure firewall rules to block threats (Help w Personal VMs)
 ☐ - Tap into your own PC devices (Help w Personal VMs)
 ☐ - Create a two-factor authentication system
