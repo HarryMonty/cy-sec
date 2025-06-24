@@ -5,11 +5,11 @@ Beginner-
 ☑ - Build a tool to 'sniff' network traffic
 ☑ - Make a basic keylogger for practice
 ☑ - Create a personal cybersecurity lab at home
-☐ - Practice encrypting files with cryptography (Help w Personal VMs?)
-☐ - Test Wi-Fi security at home
-☐ - Scan networks for vulnerabilities
+☑ - Practice encrypting files with cryptography (Help w Personal VMs?)
+☐ - Scan networks for vulnerabilities (Help w Personal VMs)
 ☐ - Configure firewall rules to block threats (Help w Personal VMs)
-☐ - Create two-factor authentication system
+☐ - Tap into your own PC devices (Help w Personal VMs)
+☐ - Create a two-factor authentication system
 ☐ - Build a secure web application
 ☐ - Set up and use 'Snort' for intrusion detection (Help w Personal VMs)
 ☐ - Practice detecting DNS spoofing attacks (Help w Personal VMs?)
@@ -45,3 +45,7 @@ Advanced-
 ☐ - Build a simple biometric authentication system
 ☐ - Secure containers with microservices
 ☐ - Detect hidden data with steganography tools
+
+
+Other-
+☐ - Test Wi-Fi security at home

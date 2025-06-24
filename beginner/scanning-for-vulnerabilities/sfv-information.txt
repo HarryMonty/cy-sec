@@ -1,0 +1,78 @@
+Scanning for Local IP Vulnerabilities (Nmap):
+
+1. Use NMap tool to scan for known device on home network
+	* 'nmap -sn {ip}/24' (-sn = Scan no port | only online devices) (/24 scan entire subnet)
+
+(View initial-ip-scan.png for results)
+
+2. Scan any closed addresses
+	* IP 10.0.3.15 looked interesting (no data)
+	* nmap -sV -O 10.0.3.15 (-sV = identify service versions) (-O = Scan OS system)
+
+Out of the 1000 ports scanned, no open ports detected on the devices. This means that all ports are closed or filtered. It also states too many fingerprints to match OS, but it couldn't confidently identify it. This tells us the device could be:
+	* Hardened (firewall, all ports closed)
+	* Inactive service-wise (Nothing running to interact with)
+
+(View nmap-deeper-ip-scan.png for results)
+
+3. Find an address with Open Ports
+	* Look through IP list
+
+nmap -sV -O 10.0.3.3 produced a list of open ports being used for a HTTP web service - from Apache and MySQL on a Windows OS
+
+This ip has ports:
+80 - Open - http
+135 - Open - msrpc
+443 - Open - ssl/http
+445 - Open 
+3306 - Open - mysql
+5357 - Open - http
+9010 - Open - websocket
+
+(View open-ports-scanned.png for full logs)
+
+4. Run a script to detect vulnerabilities on the network (Nmap)
+	* Run 'nmap --script vuln {ip}'
+
+After running a vulnerability test through the nmap program, it shows that there are multiple possible SQL injection risks on phpMyAdmin. This means the scripts detected possibly un-sanitized input fields within PHP scripts. This is a critical vulnerability as it can lead to database dumping or admin logic bypass if exploited.
+
+The directories listed where:
+	* /phpMyAdmin/
+	* /icons/
+	* /img/
+	* /licenses/
+	* /server-status/
+
+The scripts state that there is a weak SSL/TLS key exchange and is vulnerable to passive eavesdropping, this is dangerous if credentials or session tokens are exchanged over HTTPs.
+
+There is no stored XXS, DOM XXS, or CSRF found - which is good.
+
+SMB scan was inconclusive.
+
+(See nmap-fullscan-[1-4].png for full scan logs)
+
+Scanning for Web Vulnerabilities (Nikto)
+
+1. Since we already know what IP has Apache + phpMyAdmin we will scan that one
+	* Run 'nikto -h http://{ip}'
+
+This will scan the address and the local server being ran, and look for any vulnerabilities.
+
+The IP scan has found multiple vulnerabilities, including-
+
+1. Missing Security Headers
+	* X-Frame-Options | Allows clickjacking
+	* X-Content-Type-Options | Leads to MOME sniffing attacks
+2. HTTP Trace Enabled
+	* This allows for cross site tracking
+3. Directory Indexing Enabled
+	* /img/
+	* /icons/
+	* /phpMyAdmin/
+This means anyone can browse file lists in these directors, which could like logs and config files.
+4. phpMyAdmin Exposed
+	* Visible and accessible
+	* Should only be accessible internally or behind auth
+	* Vulnerable to brute-force
+
+(View nikto-fullscan-[1-2].png for full logs from Kali)
