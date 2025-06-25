@@ -44,4 +44,18 @@ if __name__ == "__main__":
 
 Implementing Secure User Login and Registration:
 
-1. 
+1. Using online documentation, I first created the web apps login/register logic and attached a static CSS file to the .html
+Here are some helpful docs
+	* https://flask.palletsprojects.com/en/stable/
+
+2. After getting the redirect links working for login and register, I began working on flask-WTF
+Here are some helpful docs
+	* https://flask-wtf.readthedocs.io/en/1.2.x/
+	* https://wtforms.readthedocs.io/en/3.0.x/fields/
+	* https://www.youtube.com/watch?v=GbJPqu0ff9A
+
+The Register form was created first, being defined as a class with proper validation. It is then referenced within 'register.html'
+
+(See register-app.png and register-form.png for the code)
+
+3. 

@@ -2,9 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Register - Secure Web App</title>
 </head>
 <body>
-    <h1></h1>
+    <h1>Please register your account.</h1>
+    <br>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        {{ form.name.label }} {{ form.name(size=20) }}
+        {{ form.password.label }} {{ form.password(size=20) }}
+        <br>
+        {{ form.submit() }}
+    </form>
 </body>
 </html>
