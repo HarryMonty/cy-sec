@@ -1,0 +1,47 @@
+Setting up the Development Environment:
+
+1. Setting up a Venv environment (Command Prompt Terminal)
+	* 'python -m venv venv'
+
+Ensuring the project is in an isolated environment creates a clean setup.
+
+2. Install dependencies
+	* 'pip install flask flask-wtf flask-bcrypt' | flask-wtf = CSRF protection and form handling | flask-bcrypt = Hashing and verifying password
+	* 'pip freeze > setup/requirements.txt' | This lists every package the app depends on
+
+Setting up the Basic App:
+
+1. Create the app.py using Flask libraries, and render_template to access .html files
+
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return render_template("home.html")
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+2. Create a simple home.html file
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Secure Web App - Harry Montgomery</title>
+</head>
+<body>
+    <h1>Welcome to my Secure Web App</h1>
+</body>
+</html>
+
+3. Test the secure web app
+	* 'python app.py' | This turns on the app
+
+(See initial-app-startup.png)
+
+Implementing Secure User Login and Registration:
+
+1. 
