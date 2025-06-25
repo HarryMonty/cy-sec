@@ -1,0 +1,123 @@
+2FA0-Theory:
+
+1. What is Two-Factor Authentication (2FA)?
+
+Two-factor authentication is a security process in which users provide two different types of information to verify their identity. This is usually done with:
+	* Something you know (password)
+	* Something you have (temp password, auth app, sms)
+
+This is so if a hacker is able to obtain your password through a data leak or other means, they will require another form of identification.
+
+2. How TOTP-Based 2FA Works (Time-based One-Time Password)
+	* The server generates a secret key for the user
+	* The secret key is scanned into an app like Google Auth via QR code
+	* The app uses the secret key + current time to generate a 6-digit rotating code every 30 seconds
+	* When logging in, the user provides:
+		* Their password
+		* The current 6-digit code
+	* The server uses the same secret key + time to verify the code is valid
+
+This means that there is no internet connection required for the code to work - only synced clocks and shared secret key.
+
+3. Why is this secure?
+	* Codes expire quickly (30 seconds)
+	* Codes can't be guessed easily
+	* The secret key is never transmitted again after setup
+	* Even if your password is stolen, the attacker still lacks the second factor
+
+Creating the Script:
+
+1. Hardcoded or Hashed?
+
+While in professional settings, the password will ALWAYS be encrypted by a hash - however for this specific project I am just learning the 2FA system specifically. (seen in my 'encrypt-and-transfer project').
+
+The python script will store a hardcoded password, prompt the user for an input, verify the credentials, and then send out the 2FA code for confirmation.
+
+2. Making the User Input
+
+username = "harry@localuser"
+password = "secure123"
+
+userInput = input("Username: ").strip()
+if userInput == username:
+    passInput = input("Password: ").strip()
+    if passInput == password:
+        print("Correct Password.")
+    else:
+        print("Incorrect Password.")
+else:
+    print("Incorrect Username.")
+
+This is a basic login script with hardcoded username and password, there is no 2FA yet - but it's a start. This is a basic login gate that gives a clear output based on success/failure.
+
+Installing Dependencies:
+
+Install the necessary libraries-
+	* 'pip install pyotp' | TOTP 2FA
+	* 'pip install qrcode[pil]' | Generating QR Codes
+
+Creating 2FA:
+
+In a professional setting, this key would be unique for every person and stored into a database - for this example I am storing it in a variable for testing and ease of use.
+
+1. Making the 2FA Logic (aotpauth)
+
+import pyotp
+import qrcode
+
+secret = "JBSWY3DPEHPK3PXP"
+username = "admin"
+password = "secure123"
+
+userInput = input("Username: ").strip()
+if userInput == username:
+    passInput = input("Password: ").strip()
+    if passInput == password:
+        print("Please enter your 2FA code by scanning the QR Code.")
+
+        totp = pyotp.TOTP(secret).provisioning_uri(name="harry@localuser", issuer_name="CySecApp")
+
+        img = qrcode.make(totp)
+        type(img)
+        img.save("qr_code.png")
+    else:
+        print("Incorrect Password.")
+else:
+    print("Incorrect Username.")
+
+This code shows a secret base32 encoded string being created, which is later used to make the TOTP QR code. The QR code is valid and scannable through the Google Authentication app.
+
+(See qr_code.png for the QR Code)
+
+Prompting the use of the TOTP Code:
+
+1. Creating the new logic for 2FA Authentication
+
+import pyotp
+import qrcode
+
+secret = "JBSWY3DPEHPK3PXP"
+totp = pyotp.TOTP(secret)
+totpQR = totp.provisioning_uri(name="harry@localuser", issuer_name="CySecApp")
+username = "admin"
+password = "secure123"
+
+userInput = input("Username: ").strip()
+if userInput == username:
+    passInput = input("Password: ").strip()
+    if passInput == password:
+        img = qrcode.make(totpQR)
+        type(img)
+        img.save("qr_code.png")
+
+        otpInput = input("Please enter your 2FA code by scanning the QR Code: ")
+        if totp.verify(otpInput):
+            print("Success")
+        else:
+            print("Failure")
+    else:
+        print("Incorrect Password.")
+else:
+    print("Incorrect Username.")
+
+What this code is doing, it creating a 'secret' key (in a professional setting, this wouldn't be hardcoded). It is putting that secret key into the TOTP function. TOTP is used to then create a QR code with naming variables. It then asks the user what the hardcoded username / password is, if they are correct qrcode is used to make a scannable QR code (Google Authentication). The script prompts the user for the 2FA code, and checks if it is successful 'totp.verify(otpInput)'
