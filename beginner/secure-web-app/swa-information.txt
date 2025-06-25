@@ -58,4 +58,4 @@ The Register form was created first, being defined as a class with proper valida
 
 (See register-app.png and register-form.png for the code)
 
-3. 
+3. Update
