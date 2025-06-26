@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, session
 from flask_bcrypt import Bcrypt
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
@@ -44,6 +44,14 @@ class LoginForm(FlaskForm):
     password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Submit")
 
+@app.after_request
+def add_security_headers(resp):
+    resp.headers["Content-Security-Policy"]="default-src \'self\'"
+    resp.headers["X-Frame-Options"]="DENY"
+    resp.headers["X-Content-Type-Options"]="nosniff"
+    resp.headers["Referrer-Policy"]="no-referrer"
+    return resp
+
 # HTML Routes
 @app.route("/")
 def home():
@@ -51,6 +59,8 @@ def home():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    if "user" in session:
+        return redirect(url_for("dashboard"))
     name = None
     password = None
     form = RegisterForm()
@@ -68,6 +78,8 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if "user" in session:
+        return redirect(url_for("dashboard"))
     name = None
     password = None
     form = LoginForm()
@@ -76,7 +88,9 @@ def login():
         name = form.name.data
         password = form.password.data
         if check_pass(name, password):
-            return redirect(url_for(dashboard))
+            session["user"] = name
+            print(session)
+            return redirect(url_for("dashboard"))
         else:
             form.name.data = ''
             error = "Password is incorrect."
@@ -85,7 +99,14 @@ def login():
 
 @app.route("/dashboard")
 def dashboard():
+    if "user" not in session:
+        return redirect(url_for("login"))
     return render_template("dashboard.html")
+
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect(url_for("home"))
 
 # Debug Mode
 if __name__ == "__main__":

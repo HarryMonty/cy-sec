@@ -119,7 +119,7 @@ def login():
         name = form.name.data
         password = form.password.data
         if check_pass(name, password):
-            return redirect(url_for(dashboard))
+            return redirect(url_for("dashboard"))
         else:
             form.name.data = ''
             error = "Password is incorrect."
@@ -135,3 +135,65 @@ def check_pass(name, password):
                     current_line = file.readline()
                     pw_hash = current_line.strip().replace("P:", "")
                     return bcrypt.check_password_hash(pw_hash, password)
+
+Secure Session Handling & Route Protection:
+
+Now the login and registration logic is created, with a basic database. I will now be ensuring there is session-based login tracking (flask), restricting access to the dashboard unless the user is logged in, and logout functionality.
+
+1. Creating user sessions
+	'session["user"] = name | Putting this right after the login logic, sets up the session with the CSRF token & the users name
+
+2. Make denied access for dashboard if not logged in
+
+@app.route("/dashboard")
+def dashboard():
+    if "user" not in session:
+        return redirect(url_for("login"))
+    return render_template("dashboard.html")
+
+This stops the person from accessing unless they are logged into a session under "user"
+
+Adding basic Access Control:
+
+This is to limit what users can do based on their authentication (such as roles / permissions)
+
+1. Blocking login / registration if the user is logged in
+
+This is to stop any potential bugs the user could create by re-logging into an existing session or creating multiple sessions.
+	* 'if “user” in session:
+		return redirect(url_for(“dashboard”))
+This simple code runs before the rest to ensure the user is not logged in before continuing
+
+2. Creating a secure logout session
+
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect(url_for("home"))
+
+This route pops the users session before redirecting the user to the home page, having them log back in if they want to access the website. The logout button is placed within dashboard.html
+
+Hardening the app with Security Headers:
+
+To prevent frequent HTML attacks such as clickjacking, XSS, MIME sniffing, unintended caching, it’s important to include features to stop these attacks from happening.
+
+1. Preventing most attacks (HTTP Header)
+
+I will be adding a CSP header, X-Frame header, X-Content header, and a Referrer-Policy header.
+
+@app.after_request
+def add_security_headers(resp):
+    resp.headers["Content-Security-Policy"]="default-src \'self\'"
+    resp.headers["X-Frame-Options"]="DENY"
+    resp.headers["X-Content-Type-Options"]="nosniff"
+    resp.headers["Referrer-Policy"]="no-referrer"
+    return resp
+
+(See secure-header.png)
+
+Content-Security-Policy | This limits what external content the site is allows to load - such as scripts, styles, images, iframes, etc. This will only let scripts/styles load from within the domain and prevents inline scripts.
+X-Frame-Options | This prevents the website from being embedded in an iframe on another site, blocking clickjacking.
+X-Content-Type-Options | This prevents browsers from ‘sniffing’ the content type from files. This stops MIME-based attacks.
+Referrer-Policy | This tells the browser not to send the Referrer header at all when clicking links or submitting forms, this prevent leaking sensitive urls.
+
+(See dashboard-page.png, home-page.png, login-page.png, and register-page.png for full website)
