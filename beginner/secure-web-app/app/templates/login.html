@@ -7,5 +7,19 @@
 </head>
 <body>
     <h1>Please log in to your account.</h1>
+    <br>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        {{ form.name.label }} {{ form.name(size=20) }}
+        {{ form.password.label }} {{ form.password(size=20) }}
+        <br>
+        {{ form.submit() }}
+    </form>
+    {% if error %}
+    <ul class="errors">
+        <li>{{ error }}</li>
+    </ul>
+    {% endif %}
 </body>
 </html>

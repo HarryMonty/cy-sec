@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from flask_bcrypt import Bcrypt
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
@@ -18,10 +18,19 @@ def check_user(name, password):
     with open("app/static/database.db", "a") as file:
         file.write(f"U:{name}\n")
 
-        pw_hash = bcrypt.generate_password_hash(password)
+        pw_hash = bcrypt.generate_password_hash(password).decode("utf-8")
         file.write(f"P:{pw_hash}\n")
-        print(bcrypt.check_password_hash(pw_hash, password))
         return True
+    
+# Check password exists
+def check_pass(name, password):
+    with open("app/static/database.db", "r") as file:
+            for line in file:
+                users = (line.strip())
+                if users.replace("U:", "") == name:
+                    current_line = file.readline()
+                    pw_hash = current_line.strip().replace("P:", "")
+                    return bcrypt.check_password_hash(pw_hash, password)
 
 # Register Form
 class RegisterForm(FlaskForm):
@@ -50,19 +59,29 @@ def register():
         name = form.name.data
         password = form.password.data
         if check_user(name, password):
-            return render_template("login.html")
+            return redirect(url_for("login"))
         else:
             form.name.data = ''
             error = "Username already exists."
             return render_template("register.html", name = name, password = password, form = form, error = error)
-    return render_template("register.html",
-                           name = name,
-                           password = password,
-                           form = form)
+    return render_template("register.html", name = name, password = password, form = form)
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    return render_template("login.html")
+    name = None
+    password = None
+    form = LoginForm()
+    # Validate Form
+    if form.validate_on_submit():
+        name = form.name.data
+        password = form.password.data
+        if check_pass(name, password):
+            return redirect(url_for(dashboard))
+        else:
+            form.name.data = ''
+            error = "Password is incorrect."
+            return render_template("login.html", name = name, password = password, form = form, error = error)
+    return render_template("login.html", name = name, password = password, form = form)
 
 @app.route("/dashboard")
 def dashboard():
