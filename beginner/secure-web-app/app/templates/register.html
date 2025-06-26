@@ -16,5 +16,10 @@
         <br>
         {{ form.submit() }}
     </form>
+    {% if error %}
+    <ul class="errors">
+        <li>{{ error }}</li>
+    </ul>
+    {% endif %}
 </body>
 </html>

@@ -6,6 +6,17 @@ from wtforms.validators import DataRequired, Email
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "SecretKey"
 
+# Check username exists
+def check_user(name):
+    with open("app/static/database.db", "r") as file:
+            for line in file:
+                users = (line.strip())
+                if users == name:
+                    return False
+    with open("app/static/database.db", "a") as file:
+        file.write(f"{name}\n")
+        return True
+
 # Register Form
 class RegisterForm(FlaskForm):
     name = StringField("Username", validators=[DataRequired()])
@@ -26,8 +37,12 @@ def register():
     if form.validate_on_submit():
         name = form.name.data
         password = form.password.data
-        form.name.data = ''
-        return render_template("home.html")
+        if check_user(name):
+            return render_template("login.html")
+        else:
+            form.name.data = ''
+            error = "Username already exists."
+            return render_template("register.html", name = name, password = password, form = form, error = error)
     return render_template("register.html",
                            name = name,
                            password = password,

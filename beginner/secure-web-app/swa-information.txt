@@ -58,4 +58,6 @@ The Register form was created first, being defined as a class with proper valida
 
 (See register-app.png and register-form.png for the code)
 
-3. Update
+3. Update the register logic to check for existing users
+
+This is done by checking the database file (database.db) and seeing if the file has the username saved within it. If it does, then tell the user and not let them access the next page. If it is a unique username, the user is saved into the database and is allowed access to the login page.
