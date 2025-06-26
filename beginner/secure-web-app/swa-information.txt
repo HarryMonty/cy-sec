@@ -58,6 +58,43 @@ The Register form was created first, being defined as a class with proper valida
 
 (See register-app.png and register-form.png for the code)
 
-3. Update the register logic to check for existing users
+3. Update the register logic to check for existing users & Password hashing
 
 This is done by checking the database file (database.db) and seeing if the file has the username saved within it. If it does, then tell the user and not let them access the next page. If it is a unique username, the user is saved into the database and is allowed access to the login page.
+
+The script then hashes the password using python library 'flask_bcrypt' and hashes the user password and placing it into the database.db file, similar to the users name.
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    name = None
+    password = None
+    form = RegisterForm()
+    # Validate Form
+    if form.validate_on_submit():
+        name = form.name.data
+        password = form.password.data
+        if check_user(name, password):
+            return render_template("login.html")
+        else:
+            form.name.data = ''
+            error = "Username already exists."
+            return render_template("register.html", name = name, password = password, form = form, error = error)
+    return render_template("register.html",
+                           name = name,
+                           password = password,
+                           form = form)
+
+# Check username exists
+def check_user(name, password):
+    with open("app/static/database.db", "r") as file:
+            for line in file:
+                users = (line.strip())
+                if users.replace("U:", "") == name:
+                    return False
+    with open("app/static/database.db", "a") as file:
+        file.write(f"U:{name}\n")
+
+        pw_hash = bcrypt.generate_password_hash(password)
+        file.write(f"P:{pw_hash}\n")
+        print(bcrypt.check_password_hash(pw_hash, password))
+        return True
