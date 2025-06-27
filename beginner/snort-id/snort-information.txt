@@ -1,0 +1,55 @@
+Installing Snort onto Kali:
+	* ‘sudo apt install snort -y’
+
+(see snort-installation.png for version)
+
+Understanding Snorts File Structure:
+
+1. Important Snort directories
+	* ‘ls /etc/snort’
+
+I went through the snort files to ensure I understood how the layout is.
+
+2. Create a custom rules file
+https://docs.snort.org/start/rules
+
+	* ‘sudo nano /etc/snort/rules/test.rules’
+
+Inside the new test rules ‘alert icmp any any -> $HOME_NET any (msg:"ICMP test ping detected"; sid:1000001; rev:1;)’
+
+3. Set up HOME_NET
+	* ‘sudo nano etc/snort/snort.lua’
+	* Replace ‘HOME_NET = ‘any’’ into ‘HOME_NET = ‘{internet}’’ | For my vm, that is 192.168.30.0/24
+
+(See home_net-config.png for the changed config file)
+
+Run Snort in IDS mode and trigger the new rule:
+	* ‘sudo snort -i eth0 -c /etc/snort/snort.lua -R /etc/snort/rules/test.rules -A alert_fast’
+cheat-sheet:
+-i eth0 | Listen on the VM interface
+-c | Use the main Lua config
+-R | Use the test rule file directly
+-A alert_fast | Readable alert format
+
+(See enabled-listening.png to see the logs)
+
+4. Ping the Kali VM from a different VM
+	* ‘sudo snort -i eth0 -c /etc/snort/snort.lua -A alert_fast -k none’
+
+After a short while the terminal will begin showing the pings from the other VM. You can also have another terminal up using
+	* ‘sudo tcpdump -i eth0’
+
+(See snort-ping-logs.png & tcpdump-logs.png for the pings)
+
+Understanding the Logs:
+
+06/26-22:11:43.215006 [**] [1:1000001:2] "ICMP test ping detected" [**] [Priority: 0] {ICMP} 192.168.30.10 -> 192.168.30.20
+
+This is one of the logs produced by the Snort pings.
+
+06/26-22:11:43.215006 | This is the time the packet was logged
+[1:1000001:2] | [Generator ID : Signature ID : Revision]
+"ICMP test ping detected" | Custom message from the rules msg field
+[Priority: 0] | Packet priority level
+{ICMP} | Protocol of packet
+192.168.30.10 -> 192.168.30.20 | Source IP to Destination IP

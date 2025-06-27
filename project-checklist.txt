@@ -10,15 +10,16 @@ Beginner-
 ☑ - Configure firewall rules to block threats (Help w Personal VMs)
 ☑ - Tap into your own PC devices (Help w Personal VMs)
 ☑ - Create a two-factor authentication system
-☐ - Build a secure web application
-☐ - Set up and use 'Snort' for intrusion detection (Help w Personal VMs)
+☑ - Build a secure web application
 ☐ - Practice detecting DNS spoofing attacks (Help w Personal VMs)
 ☐ - Study how antivirus software works
 ☐ - Build a tool to detect unusual activities
 ☐ - Setup up TLS for secure communication
 ☐ - Create a browser extension for security
+☐ - Research and understand how to use Git
 
 Intermediate-
+☐ - Set up and use 'Snort' for intrusion detection (Help w Personal VMs)
 ☐ - Build a malware analysis sandbox
 ☐ - Encrypt data with full disk encryption (Help w Personal VMs)
 ☐ - Test secure routing protocols (Personal VMs)
