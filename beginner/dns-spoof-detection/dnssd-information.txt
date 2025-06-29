@@ -1,0 +1,4 @@
+What is DNS Spoofing?
+
+DNS cache poisoning is the act of entering false information into a DNS cache, so that DNS queries return the incorrect response and users are directed to the wrong websites. This can be solved with DNS resolvers, which provide users with the IP address that is associated with a domain name. So when a user attempts to navigate to a website, their OS sends a request to a DNS resolver. The DNS resolver responds with the IP address, and the web browser takes this address and initiates loading the website.
+
